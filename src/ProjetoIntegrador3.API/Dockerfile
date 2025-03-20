@@ -8,6 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/ProjetoIntegrador3.API/ProjetoIntegrador3.API.csproj", "ProjetoIntegrador3.API/"]
+COPY ["src/ProjetoIntegrador3.Infra.Identity/ProjetoIntegrador3.Infra.Identity.csproj", "ProjetoIntegrador3.Infra.Identity/"]
 RUN dotnet restore "ProjetoIntegrador3.API/ProjetoIntegrador3.API.csproj"
 WORKDIR "ProjetoIntegrador3.API"
 COPY . .
