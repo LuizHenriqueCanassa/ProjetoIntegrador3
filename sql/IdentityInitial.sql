@@ -65,22 +65,16 @@ CREATE TABLE "UserRoles" (
 );
 
 INSERT INTO "Roles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('63250c55-69c6-4a4b-8788-428de5ea3ca7', '28b0975a-22b8-4adc-9ed3-5f46dfc62172', 'Employee', 'EMPLOYEE');
+VALUES ('55949b28-12ff-4c96-a1a5-88fd7d4e9780', '788576ea-ec09-4384-a46f-503c609814eb', 'Admin', 'ADMIN');
 INSERT INTO "Roles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('63dec552-5279-4728-ab19-6a97b2bd25c9', '08338f29-5eb4-4fda-a5fc-40733f831fde', 'User', 'USER');
+VALUES ('8d3ce819-0d2c-4602-a27b-b1e8a1aa97ad', '665a406c-eb1f-4338-ab4f-35ca2d37a4d0', 'Employee', 'EMPLOYEE');
 INSERT INTO "Roles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('ab89debc-bb39-46c0-bc36-5a09f243cb07', 'e5506a37-883b-41e5-9112-80b55f0befe5', 'Root', 'ROOT');
+VALUES ('936a078f-15fb-413a-b6b5-6f15c94ca621', '3b913a08-f492-42c7-9eb1-bb443340d9a5', 'User', 'USER');
 INSERT INTO "Roles" ("Id", "ConcurrencyStamp", "Name", "NormalizedName")
-VALUES ('b894005b-2a24-4b4a-8182-2a8e90c74c7e', '95b70144-3e9c-46b0-a5a1-f37a60d21d3d', 'Admin', 'ADMIN');
-
-INSERT INTO "Users" ("Id", "AccessFailedCount", "Birthdate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName")
-VALUES ('5823f86c-aa68-49ca-be02-7adf6bcb291e', 0, TIMESTAMPTZ '2025-03-20T03:00:00Z', 'a747d4c1-7009-43ad-891e-782f98cabb36', 'root@root.com', TRUE, 'Usuario Root', FALSE, NULL, 'ROOT@ROOT.COM', 'ROOT', NULL, NULL, FALSE, 'f5ea0e82-58df-4f71-847d-5e2e6f042846', FALSE, 'Root');
+VALUES ('ab89debc-bb39-46c0-bc36-5a09f243cb07', '29499dd6-673d-4ebf-9131-e18471b330b6', 'Root', 'ROOT');
 
 INSERT INTO "RoleClaims" ("Id", "ClaimType", "ClaimValue", "RoleId")
 VALUES (1, 'Root', 'Root', 'ab89debc-bb39-46c0-bc36-5a09f243cb07');
-
-INSERT INTO "UserRoles" ("RoleId", "UserId")
-VALUES ('ab89debc-bb39-46c0-bc36-5a09f243cb07', '5823f86c-aa68-49ca-be02-7adf6bcb291e');
 
 CREATE INDEX "IX_RoleClaims_RoleId" ON "RoleClaims" ("RoleId");
 
@@ -102,7 +96,7 @@ SELECT setval(
     false);
 
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
-VALUES ('20250320213706_IdentityInitial', '8.0.14');
+VALUES ('20250320221633_IdentityInitial', '8.0.14');
 
 COMMIT;
 
