@@ -8,6 +8,8 @@ builder.Services.AddControllers();
 
 builder.AddEnvironmentConfiguration();
 
+builder.AddIdentityConfiguration();
+
 builder.AddSwaggerConfiguration();
 
 builder.AddHealthCheckConfiguration();

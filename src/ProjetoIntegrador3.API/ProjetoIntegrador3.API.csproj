@@ -28,4 +28,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ProjetoIntegrador3.Infra.Identity\ProjetoIntegrador3.Infra.Identity.csproj" />
+    </ItemGroup>
+
 </Project>
