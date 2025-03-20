@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.AddEnvironmentConfiguration();
+
 builder.AddSwaggerConfiguration();
 
 builder.AddHealthCheckConfiguration();
