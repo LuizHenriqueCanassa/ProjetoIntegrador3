@@ -6,5 +6,5 @@ public class ApplicationUser : IdentityUser
 {
     public string? FullName { get; set; }
     public string? ContactNumber { get; set; }
-    public IEnumerable<UserAddress>? Addresses { get; set; }
+    public IEnumerable<UserAddress>? Addresses { get; set; } = new List<UserAddress>();
 }
