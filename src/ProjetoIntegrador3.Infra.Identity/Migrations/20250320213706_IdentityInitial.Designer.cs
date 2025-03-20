@@ -12,7 +12,7 @@ using ProjetoIntegrador3.Infra.Identity.Context;
 namespace ProjetoIntegrador3.Infra.Identity.Migrations
 {
     [DbContext(typeof(PiIdentityDbContext))]
-    [Migration("20250320175637_IdentityInitial")]
+    [Migration("20250320213706_IdentityInitial")]
     partial class IdentityInitial
     {
         /// <inheritdoc />
@@ -48,7 +48,37 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "ab89debc-bb39-46c0-bc36-5a09f243cb07",
+                            ConcurrencyStamp = "e5506a37-883b-41e5-9112-80b55f0befe5",
+                            Name = "Root",
+                            NormalizedName = "ROOT"
+                        },
+                        new
+                        {
+                            Id = "b894005b-2a24-4b4a-8182-2a8e90c74c7e",
+                            ConcurrencyStamp = "95b70144-3e9c-46b0-a5a1-f37a60d21d3d",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "63250c55-69c6-4a4b-8788-428de5ea3ca7",
+                            ConcurrencyStamp = "28b0975a-22b8-4adc-9ed3-5f46dfc62172",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "63dec552-5279-4728-ab19-6a97b2bd25c9",
+                            ConcurrencyStamp = "08338f29-5eb4-4fda-a5fc-40733f831fde",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -73,7 +103,16 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RoleClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClaimType = "Root",
+                            ClaimValue = "Root",
+                            RoleId = "ab89debc-bb39-46c0-bc36-5a09f243cb07"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -98,7 +137,10 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -120,7 +162,10 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -135,7 +180,14 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "5823f86c-aa68-49ca-be02-7adf6bcb291e",
+                            RoleId = "ab89debc-bb39-46c0-bc36-5a09f243cb07"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -154,7 +206,10 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens", null, t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", b =>
@@ -165,11 +220,11 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("Birthdate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ContactNumber")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
@@ -180,7 +235,9 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FullName")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -224,7 +281,26 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "5823f86c-aa68-49ca-be02-7adf6bcb291e",
+                            AccessFailedCount = 0,
+                            Birthdate = new DateTime(2025, 3, 20, 3, 0, 0, 0, DateTimeKind.Utc),
+                            ConcurrencyStamp = "a747d4c1-7009-43ad-891e-782f98cabb36",
+                            Email = "root@root.com",
+                            EmailConfirmed = true,
+                            FullName = "Usuario Root",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ROOT@ROOT.COM",
+                            NormalizedUserName = "ROOT",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f5ea0e82-58df-4f71-847d-5e2e6f042846",
+                            TwoFactorEnabled = false,
+                            UserName = "Root"
+                        });
                 });
 
             modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.UserAddress", b =>
@@ -241,28 +317,32 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(2)
+                        .HasColumnType("char");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("StreetNumber")
                         .HasColumnType("integer");
 
                     b.Property<string>("Zip")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(11)
+                        .HasColumnType("char");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("UserAddress");
+                    b.ToTable("UserAddresses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
