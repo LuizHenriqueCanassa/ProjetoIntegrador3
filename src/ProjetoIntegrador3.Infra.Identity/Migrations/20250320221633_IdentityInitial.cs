@@ -129,26 +129,16 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "63250c55-69c6-4a4b-8788-428de5ea3ca7", "28b0975a-22b8-4adc-9ed3-5f46dfc62172", "Employee", "EMPLOYEE" },
-                    { "63dec552-5279-4728-ab19-6a97b2bd25c9", "08338f29-5eb4-4fda-a5fc-40733f831fde", "User", "USER" },
-                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "e5506a37-883b-41e5-9112-80b55f0befe5", "Root", "ROOT" },
-                    { "b894005b-2a24-4b4a-8182-2a8e90c74c7e", "95b70144-3e9c-46b0-a5a1-f37a60d21d3d", "Admin", "ADMIN" }
+                    { "55949b28-12ff-4c96-a1a5-88fd7d4e9780", "788576ea-ec09-4384-a46f-503c609814eb", "Admin", "ADMIN" },
+                    { "8d3ce819-0d2c-4602-a27b-b1e8a1aa97ad", "665a406c-eb1f-4338-ab4f-35ca2d37a4d0", "Employee", "EMPLOYEE" },
+                    { "936a078f-15fb-413a-b6b5-6f15c94ca621", "3b913a08-f492-42c7-9eb1-bb443340d9a5", "User", "USER" },
+                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "29499dd6-673d-4ebf-9131-e18471b330b6", "Root", "ROOT" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "Birthdate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5823f86c-aa68-49ca-be02-7adf6bcb291e", 0, new DateTime(2025, 3, 20, 3, 0, 0, 0, DateTimeKind.Utc), "a747d4c1-7009-43ad-891e-782f98cabb36", "root@root.com", true, "Usuario Root", false, null, "ROOT@ROOT.COM", "ROOT", null, null, false, "f5ea0e82-58df-4f71-847d-5e2e6f042846", false, "Root" });
 
             migrationBuilder.InsertData(
                 table: "RoleClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[] { 1, "Root", "Root", "ab89debc-bb39-46c0-bc36-5a09f243cb07" });
-
-            migrationBuilder.InsertData(
-                table: "UserRoles",
-                columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "5823f86c-aa68-49ca-be02-7adf6bcb291e" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
