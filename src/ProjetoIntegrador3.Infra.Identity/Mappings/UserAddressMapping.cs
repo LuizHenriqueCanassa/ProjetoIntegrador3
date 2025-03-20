@@ -8,18 +8,13 @@ public class UserAddressMapping : IEntityTypeConfiguration<UserAddress>
 {
     public void Configure(EntityTypeBuilder<UserAddress> builder)
     {
-        builder.ToTable("AspNetUserAddress");
-        
+        builder.ToTable("UserAddresses");
+            
         builder.HasKey(x => x.Id);
-
-        builder.Property(x => x.StreetAddress).HasMaxLength(100).IsRequired();
-        
-        builder.Property(x => x.StreetNumber).IsRequired();
-        
-        builder.Property(x => x.City).IsRequired().HasMaxLength(100);
-        
-        builder.Property(x => x.State).IsRequired().HasMaxLength(2);
-        
-        builder.Property(x => x.Zip).IsRequired().HasMaxLength(8);
+            
+        builder.Property(x => x.StreetAddress).HasMaxLength(200).IsRequired();
+        builder.Property(x => x.City).HasMaxLength(200).IsRequired();
+        builder.Property(x => x.State).HasColumnType("char").HasMaxLength(2).IsRequired();
+        builder.Property(x => x.Zip).HasColumnType("char").HasMaxLength(11).IsRequired();
     }
 }
