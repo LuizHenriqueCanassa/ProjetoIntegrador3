@@ -10,6 +10,8 @@ builder.AddSwaggerConfiguration();
 
 builder.AddHealthCheckConfiguration();
 
+builder.AddDependencyInjectionConfiguration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
