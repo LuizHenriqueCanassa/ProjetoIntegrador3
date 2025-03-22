@@ -12,7 +12,7 @@ using ProjetoIntegrador3.Infra.Identity.Context;
 namespace ProjetoIntegrador3.Infra.Identity.Migrations
 {
     [DbContext(typeof(PiIdentityDbContext))]
-    [Migration("20250320221633_IdentityInitial")]
+    [Migration("20250321235645_IdentityInitial")]
     partial class IdentityInitial
     {
         /// <inheritdoc />
@@ -54,28 +54,28 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         new
                         {
                             Id = "ab89debc-bb39-46c0-bc36-5a09f243cb07",
-                            ConcurrencyStamp = "29499dd6-673d-4ebf-9131-e18471b330b6",
+                            ConcurrencyStamp = "5f8b16bd-2ad0-42d5-8e26-8374c191a677",
                             Name = "Root",
                             NormalizedName = "ROOT"
                         },
                         new
                         {
-                            Id = "55949b28-12ff-4c96-a1a5-88fd7d4e9780",
-                            ConcurrencyStamp = "788576ea-ec09-4384-a46f-503c609814eb",
+                            Id = "f002f63e-045c-48a7-be36-04b7dc3a9de8",
+                            ConcurrencyStamp = "ad44b94b-960f-44ea-9fd8-c6afac37701f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8d3ce819-0d2c-4602-a27b-b1e8a1aa97ad",
-                            ConcurrencyStamp = "665a406c-eb1f-4338-ab4f-35ca2d37a4d0",
+                            Id = "955553e6-565b-4554-bab2-5204aa51d4e1",
+                            ConcurrencyStamp = "40bd91d6-f99c-48e0-8a50-4be028715f85",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "936a078f-15fb-413a-b6b5-6f15c94ca621",
-                            ConcurrencyStamp = "3b913a08-f492-42c7-9eb1-bb443340d9a5",
+                            Id = "cbb23c2b-fcb5-4975-bddb-4a86a5b760d1",
+                            ConcurrencyStamp = "4fb5f10f-7517-4a1e-86fe-dba7bb2fafc4",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -137,10 +137,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", null, t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -162,10 +159,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", null, t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -199,10 +193,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", null, t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", b =>
