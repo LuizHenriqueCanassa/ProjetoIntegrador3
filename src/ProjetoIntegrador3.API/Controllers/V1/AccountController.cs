@@ -12,10 +12,24 @@ namespace ProjetoIntegrador3.API.Controllers.V1;
 public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     
-    public AccountController(UserManager<ApplicationUser> userManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginUserViewModel loginUserViewModel)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+        
+        var result = await _signInManager.PasswordSignInAsync(loginUserViewModel.Email, loginUserViewModel.Password, false, false);
+        
+        if (!result.Succeeded) return BadRequest(result);
+        
+        return Ok();
     }
 
     [HttpPost("register")]
