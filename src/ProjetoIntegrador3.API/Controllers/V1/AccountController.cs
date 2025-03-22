@@ -1,7 +1,9 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using ProjetoIntegrador3.API.Models.User;
+using ProjetoIntegrador3.Infra.Identity.JWT;
 using ProjetoIntegrador3.Infra.Identity.Models;
 
 namespace ProjetoIntegrador3.API.Controllers.V1;
@@ -13,11 +15,17 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly IHttpContextAccessor _httpContext;
+    private readonly AppJwtSettings _appJwtSettings;
     
-    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IHttpContextAccessor httpContext, IOptions<AppJwtSettings> appJwtSettings, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _httpContext = httpContext;
+        _roleManager = roleManager;
+        _appJwtSettings = appJwtSettings.Value;
     }
 
     [HttpPost("login")]
@@ -29,7 +37,7 @@ public class AccountController : ControllerBase
         
         if (!result.Succeeded) return BadRequest(result);
         
-        return Ok();
+        return Ok(GetJwtToken(loginUserViewModel.Email));
     }
 
     [HttpPost("register")]
@@ -55,5 +63,17 @@ public class AccountController : ControllerBase
         await _userManager.AddToRoleAsync(await _userManager.FindByEmailAsync(user.Email), "User");
         
         return Created();
+    }
+
+    private object GetJwtToken(string email)
+    {
+        return new JwtBuilder()
+            .WithHttpContext(_httpContext)
+            .WithUserManager(_userManager)
+            .WithRoleManager(_roleManager)
+            .WithAppJwtSettings(_appJwtSettings)
+            .WithEmail(email)
+            .WithRoleClaims()
+            .GenerateToken();
     }
 }
