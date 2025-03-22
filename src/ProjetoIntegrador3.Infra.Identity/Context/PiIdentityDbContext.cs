@@ -16,15 +16,14 @@ public class PiIdentityDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<IdentityUserToken<string>>().Metadata.SetIsTableExcludedFromMigrations(true);
-        builder.Entity<IdentityUserLogin<string>>().Metadata.SetIsTableExcludedFromMigrations(true);
-        builder.Entity<IdentityUserClaim<string>>().Metadata.SetIsTableExcludedFromMigrations(true);
-
         builder
             .ApplyConfiguration(new ApplicationUserMapping())
             .ApplyConfiguration(new UserAddressMapping())
             .ApplyConfiguration(new RoleMapping())
             .ApplyConfiguration(new UserRolesMapping())
-            .ApplyConfiguration(new RoleClaimsMapping());
+            .ApplyConfiguration(new RoleClaimsMapping())
+            .ApplyConfiguration(new UserTokenMapping())
+            .ApplyConfiguration(new UserLoginMapping())
+            .ApplyConfiguration(new UserClaimMapping());
     }
 }

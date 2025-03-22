@@ -101,6 +101,47 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_UserLogins_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserRoles",
                 columns: table => new
                 {
@@ -124,15 +165,35 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_UserTokens_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "55949b28-12ff-4c96-a1a5-88fd7d4e9780", "788576ea-ec09-4384-a46f-503c609814eb", "Admin", "ADMIN" },
-                    { "8d3ce819-0d2c-4602-a27b-b1e8a1aa97ad", "665a406c-eb1f-4338-ab4f-35ca2d37a4d0", "Employee", "EMPLOYEE" },
-                    { "936a078f-15fb-413a-b6b5-6f15c94ca621", "3b913a08-f492-42c7-9eb1-bb443340d9a5", "User", "USER" },
-                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "29499dd6-673d-4ebf-9131-e18471b330b6", "Root", "ROOT" }
+                    { "955553e6-565b-4554-bab2-5204aa51d4e1", "40bd91d6-f99c-48e0-8a50-4be028715f85", "Employee", "EMPLOYEE" },
+                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "5f8b16bd-2ad0-42d5-8e26-8374c191a677", "Root", "ROOT" },
+                    { "cbb23c2b-fcb5-4975-bddb-4a86a5b760d1", "4fb5f10f-7517-4a1e-86fe-dba7bb2fafc4", "User", "USER" },
+                    { "f002f63e-045c-48a7-be36-04b7dc3a9de8", "ad44b94b-960f-44ea-9fd8-c6afac37701f", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -155,6 +216,16 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 name: "IX_UserAddresses_ApplicationUserId",
                 table: "UserAddresses",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserClaims_UserId",
+                table: "UserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserLogins_UserId",
+                table: "UserLogins",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
@@ -183,7 +254,16 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 name: "UserAddresses");
 
             migrationBuilder.DropTable(
+                name: "UserClaims");
+
+            migrationBuilder.DropTable(
+                name: "UserLogins");
+
+            migrationBuilder.DropTable(
                 name: "UserRoles");
+
+            migrationBuilder.DropTable(
+                name: "UserTokens");
 
             migrationBuilder.DropTable(
                 name: "Roles");
