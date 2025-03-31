@@ -8,13 +8,13 @@ builder.Services.AddControllers();
 
 builder.AddEnvironmentConfiguration();
 
-builder.AddIdentityConfiguration();
-
 builder.AddSwaggerConfiguration();
 
 builder.AddHealthCheckConfiguration();
 
 builder.AddDependencyInjectionConfiguration();
+
+builder.AddIdentityConfiguration();
 
 var app = builder.Build();
 
@@ -25,6 +25,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
