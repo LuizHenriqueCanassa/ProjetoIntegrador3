@@ -18,6 +18,10 @@ public static class IdentityConfiguration
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
         
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<PiIdentityDbContext>();
+        
         var appJwtSettingsSection = builder.Configuration.GetSection("AppJwtSettings");
         builder.Services.Configure<AppJwtSettings>(appJwtSettingsSection);
         
@@ -42,10 +46,6 @@ public static class IdentityConfiguration
                 ValidIssuer = appJwtSettings.Issuer
             };
         });
-
-        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<PiIdentityDbContext>();
         
         return builder;
     }
