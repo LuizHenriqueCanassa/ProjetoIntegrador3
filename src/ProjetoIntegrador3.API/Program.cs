@@ -16,6 +16,8 @@ builder.AddDependencyInjectionConfiguration();
 
 builder.AddIdentityConfiguration();
 
+builder.AddApplicationDbConfiguration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

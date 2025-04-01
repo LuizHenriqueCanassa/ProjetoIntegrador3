@@ -9,6 +9,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/ProjetoIntegrador3.API/ProjetoIntegrador3.API.csproj", "ProjetoIntegrador3.API/"]
 COPY ["src/ProjetoIntegrador3.Infra.Identity/ProjetoIntegrador3.Infra.Identity.csproj", "ProjetoIntegrador3.Infra.Identity/"]
+COPY ["src/ProjetoIntegrador3.Infra.Data/ProjetoIntegrador3.Infra.Data.csproj", "ProjetoIntegrador3.Infra.Data/"]
 RUN dotnet restore "ProjetoIntegrador3.API/ProjetoIntegrador3.API.csproj"
 WORKDIR "ProjetoIntegrador3.API"
 COPY . .
