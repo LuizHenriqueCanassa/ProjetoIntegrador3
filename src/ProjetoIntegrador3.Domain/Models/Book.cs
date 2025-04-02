@@ -1,4 +1,6 @@
-namespace ProjetoIntegrador3.Infra.Data.Models;
+using ProjetoIntegrador3.Domain.Models;
+
+namespace ProjetoIntegrador3.Domain.Models;
 
 public class Book
 {

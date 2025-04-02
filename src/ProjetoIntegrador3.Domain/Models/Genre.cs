@@ -1,4 +1,4 @@
-namespace ProjetoIntegrador3.Infra.Data.Models;
+namespace ProjetoIntegrador3.Domain.Models;
 
 public class Genre
 {
