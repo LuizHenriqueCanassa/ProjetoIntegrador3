@@ -34,6 +34,15 @@ public class BookService : IBookService
         return _mapper.Map<BookViewModel>(book);
     }
 
+    public async Task<IEnumerable<BookViewModel>> GetAllByGenre(int genreId)
+    {
+        var genre = _genreRepository.GetById(genreId).Result;
+
+        if (genre == null) throw new RegisterNotFoundException("Genero não encontrado!");
+        
+        return _mapper.Map<IEnumerable<BookViewModel>>(await _bookRepository.GetAllByGenre(genreId));
+    }
+
     public void Create(CreateUpdateBookViewModel viewModel)
     {
         var genre = _genreRepository.GetById(viewModel.GenreId).Result;

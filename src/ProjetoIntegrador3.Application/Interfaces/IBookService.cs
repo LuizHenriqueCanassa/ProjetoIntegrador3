@@ -6,6 +6,7 @@ public interface IBookService
 {
     Task<IEnumerable<BookViewModel>> GetAll();
     Task<BookViewModel> GetById(int id);
+    Task<IEnumerable<BookViewModel>> GetAllByGenre(int genreId);
     void Create(CreateUpdateBookViewModel viewModel);
     void Update(int id, CreateUpdateBookViewModel viewModel);
     void Delete(int id);
