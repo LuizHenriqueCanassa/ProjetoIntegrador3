@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using ProjetoIntegrador3.Domain.Models;
 using ProjetoIntegrador3.Infra.Data.Mappings;
 
 namespace ProjetoIntegrador3.Infra.Data.Context;

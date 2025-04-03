@@ -6,4 +6,7 @@ public interface IGenreService : IDisposable
 {
     Task<IEnumerable<GenreViewModel>> GetAll();
     Task<GenreViewModel> GetById(int id);
+    void CreateGenre(CreateUpdateGenreViewModel viewModel);
+    void UpdateGenre(int id, CreateUpdateGenreViewModel viewModel);
+    void DeleteGenre(int id);
 }

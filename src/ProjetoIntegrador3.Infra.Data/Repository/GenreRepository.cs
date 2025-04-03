@@ -10,7 +10,7 @@ public class GenreRepository : IGenreRepository
     protected readonly PiApplicationDbContext Db;
     protected readonly DbSet<Genre> DbSet;
 
-    public GenreRepository(DbSet<Genre> dbSet, PiApplicationDbContext dbContext)
+    public GenreRepository(PiApplicationDbContext dbContext)
     {
         Db = dbContext;
         DbSet = Db.Set<Genre>();
@@ -29,16 +29,19 @@ public class GenreRepository : IGenreRepository
     public void CreateGenre(Genre genre)
     {
         DbSet.Add(genre);
+        Db.SaveChanges();
     }
 
     public void UpdateGenre(Genre genre)
     {
         DbSet.Update(genre);
+        Db.SaveChanges();
     }
 
     public void DeleteGenre(Genre genre)
     {
         DbSet.Remove(genre);
+        Db.SaveChanges();
     }
 
     private bool disposed = false;

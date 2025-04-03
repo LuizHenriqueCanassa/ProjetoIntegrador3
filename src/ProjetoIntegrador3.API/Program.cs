@@ -18,6 +18,8 @@ builder.AddIdentityConfiguration();
 
 builder.AddApplicationDbConfiguration();
 
+builder.AddAutoMapperConfiguration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
