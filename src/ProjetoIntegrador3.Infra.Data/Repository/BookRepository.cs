@@ -25,6 +25,11 @@ public class BookRepository : IBookRepository
     {
         return await DbSet.Include(b => b.Genre).ToListAsync();
     }
+    
+    public async Task<IEnumerable<Book>> GetAllByGenre(int genreId)
+    {
+        return await DbSet.Include(b => b.Genre).Where(b => b.Genre.Id == genreId).ToListAsync(); 
+    }
 
     public void Create(Book book)
     {

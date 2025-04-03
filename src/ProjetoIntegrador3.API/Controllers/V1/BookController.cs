@@ -41,6 +41,38 @@ public class BookController : ControllerBase
         }
     }
 
+    [HttpGet("genre/{genreId:int}")]
+    public async Task<ActionResult<BookViewModel>> GetAllByGenre(int genreId)
+    {
+        try
+        {
+            return Ok(new
+            {
+                Data = await _bookService.GetAllByGenre(genreId)
+            });
+        }
+        catch (RegisterNotFoundException e)
+        {
+            return NotFound(new CustomErrorResponseViewModel
+            {
+                StatusCode = StatusCodes.Status404NotFound,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new CustomErrorResponseViewModel
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Houve um erro desconhecido!",
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+    }
+
     [HttpPost]
     public IActionResult Create([FromBody] CreateUpdateBookViewModel viewModel)
     {
