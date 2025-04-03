@@ -33,7 +33,7 @@ public class GenreController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateGenre([FromBody] CreateUpdateGenreViewModel viewModel)
     {
-        _genreService.CreateGenre(viewModel);
+        _genreService.Create(viewModel);
 
         return Created();
     }
@@ -43,7 +43,7 @@ public class GenreController : ControllerBase
     {
         try
         {
-            _genreService.UpdateGenre(id, viewModel);
+            _genreService.Update(id, viewModel);
 
             return NoContent();
         }
@@ -62,7 +62,7 @@ public class GenreController : ControllerBase
     {
         try
         {
-            _genreService.DeleteGenre(id);
+            _genreService.Delete(id);
             
             return NoContent();
         }

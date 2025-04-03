@@ -14,5 +14,13 @@ public class DomainToViewMappingProfile : Profile
                 opt => opt.MapFrom(
                     src => src.CreationDate.ToString("dd/MM/yyyy"))
             );
+
+        CreateMap<Book, BookViewModel>()
+            .ForMember(
+                dest => dest.Genre,
+                opt => opt.MapFrom(
+                    src => src.Genre.Name
+                )
+            );
     }
 }

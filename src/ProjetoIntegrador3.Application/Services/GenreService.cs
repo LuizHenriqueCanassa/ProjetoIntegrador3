@@ -28,12 +28,12 @@ public class GenreService : IGenreService
         return _mapper.Map<GenreViewModel>(await _genreRepository.GetById(id));
     }
 
-    public void CreateGenre(CreateUpdateGenreViewModel viewModel)
+    public void Create(CreateUpdateGenreViewModel viewModel)
     {
         _genreRepository.CreateGenre(_mapper.Map<Genre>(viewModel));
     }
 
-    public void UpdateGenre(int id, CreateUpdateGenreViewModel viewModel)
+    public void Update(int id, CreateUpdateGenreViewModel viewModel)
     {
         var genre = _genreRepository.GetById(id).Result;
         
@@ -42,7 +42,7 @@ public class GenreService : IGenreService
         _genreRepository.UpdateGenre(_mapper.Map(viewModel, genre));
     }
 
-    public void DeleteGenre(int id)
+    public void Delete(int id)
     {
         var genre = _genreRepository.GetById(id).Result;
 
