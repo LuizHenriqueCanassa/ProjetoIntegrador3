@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProjetoIntegrador3.Domain.Models;
+using ProjetoIntegrador3.Infra.Data.Migrations;
 
 namespace ProjetoIntegrador3.Infra.Data.Mappings;
 
@@ -18,5 +19,6 @@ public class BookMapping : IEntityTypeConfiguration<Book>
         builder.Property(x => x.Publisher).HasMaxLength(100).IsRequired();
         builder.Property(x => x.PublishDate).IsRequired();
         builder.Property(x => x.Isbn).HasMaxLength(13).IsRequired();
+        builder.Property(x => x.Status).HasConversion<int>().IsRequired();
     }
 }
