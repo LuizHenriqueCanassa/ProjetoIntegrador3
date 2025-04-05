@@ -1,4 +1,5 @@
 using Asp.Versioning;
+using Microsoft.OpenApi.Models;
 
 namespace ProjetoIntegrador3.API.Configuration;
 
@@ -22,7 +23,33 @@ public static class SwaggerConfiguration
                 options.SubstituteApiVersionInUrl = true;
             });
         
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+            {
+                Description = "JWT Token",
+                Name = "Authorization",
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme()
+                    {
+                        Reference = new OpenApiReference()
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+        });
         
         return builder;
     }

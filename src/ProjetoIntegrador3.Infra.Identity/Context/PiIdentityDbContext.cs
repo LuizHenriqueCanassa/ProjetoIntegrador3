@@ -8,7 +8,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Context;
 
 public class PiIdentityDbContext : IdentityDbContext<ApplicationUser>
 {
-    public PiIdentityDbContext(DbContextOptions options) : base(options)
+    public PiIdentityDbContext(DbContextOptions<PiIdentityDbContext> options) : base(options)
     {
     }
 
