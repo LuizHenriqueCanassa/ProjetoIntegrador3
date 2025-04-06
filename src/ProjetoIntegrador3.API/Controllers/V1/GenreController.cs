@@ -1,14 +1,17 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoIntegrador3.Application.Exceptions;
 using ProjetoIntegrador3.Application.Interfaces;
 using ProjetoIntegrador3.Application.ViewModels;
+using ProjetoIntegrador3.Infra.Identity.Authorization;
 
 namespace ProjetoIntegrador3.API.Controllers.V1;
 
 [ApiVersion("1.0")]
 [ApiController]
 [Route("api/v{version:apiVersion}/genres")]
+[Authorize]
 public class GenreController : ControllerBase
 {
     private readonly IGenreService _genreService;
@@ -19,18 +22,21 @@ public class GenreController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IEnumerable<GenreViewModel>> GetAll()
     {
         return await _genreService.GetAll();
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<GenreViewModel> GetById(int id)
     {
         return await _genreService.GetById(id);
     }
 
     [HttpPost]
+    [CustomAuthorize("Genre", "Create")]
     public async Task<IActionResult> CreateGenre([FromBody] CreateUpdateGenreViewModel viewModel)
     {
         _genreService.Create(viewModel);
@@ -39,6 +45,7 @@ public class GenreController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [CustomAuthorize("Genre", "Update")]
     public IActionResult UpdateGenre(int id, [FromBody] CreateUpdateGenreViewModel viewModel)
     {
         try
@@ -58,6 +65,7 @@ public class GenreController : ControllerBase
     }
     
     [HttpDelete("{id:int}")]
+    [CustomAuthorize("Genre", "Delete")]
     public IActionResult DeleteGenre(int id)
     {
         try
