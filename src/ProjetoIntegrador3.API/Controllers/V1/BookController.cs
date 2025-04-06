@@ -1,14 +1,17 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoIntegrador3.Application.Exceptions;
 using ProjetoIntegrador3.Application.Interfaces;
 using ProjetoIntegrador3.Application.ViewModels;
+using ProjetoIntegrador3.Infra.Identity.Authorization;
 
 namespace ProjetoIntegrador3.API.Controllers.V1;
 
 [ApiVersion("1.0")]
 [ApiController]
 [Route("api/v{version:apiVersion}/books")]
+[Authorize]
 public class BookController : ControllerBase
 {
     private readonly IBookService _bookService;
@@ -19,12 +22,14 @@ public class BookController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAll()
     {
         return Ok(await _bookService.GetAll());
     }
     
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public async Task<ActionResult<BookViewModel>> GetById(int id)
     {
         try
@@ -42,6 +47,7 @@ public class BookController : ControllerBase
     }
 
     [HttpGet("genre/{genreId:int}")]
+    [AllowAnonymous]
     public async Task<ActionResult<BookViewModel>> GetAllByGenre(int genreId)
     {
         try
@@ -74,6 +80,7 @@ public class BookController : ControllerBase
     }
 
     [HttpPost]
+    [CustomAuthorize("Book", "Create")]
     public IActionResult Create([FromBody] CreateUpdateBookViewModel viewModel)
     {
         try
@@ -93,6 +100,7 @@ public class BookController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [CustomAuthorize("Book", "Update")]
     public IActionResult Update(int id, [FromBody] CreateUpdateBookViewModel viewModel)
     {
         try
@@ -112,6 +120,7 @@ public class BookController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [CustomAuthorize("Book", "Delete")]
     public IActionResult Delete(int id)
     {
         try

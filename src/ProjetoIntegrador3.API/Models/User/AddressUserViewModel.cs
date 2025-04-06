@@ -26,6 +26,6 @@ public class AddressUserViewModel
     
     [DisplayName("CEP")]
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [StringLength(11, MinimumLength = 11, ErrorMessage = "O campo {0} deve ter apenas 11 caracteres")]
+    [StringLength(8, MinimumLength = 8, ErrorMessage = "O campo {0} deve ter apenas 11 caracteres")]
     public string Zip { get; set; }
 }
