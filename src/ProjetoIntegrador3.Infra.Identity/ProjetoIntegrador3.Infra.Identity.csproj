@@ -17,4 +17,13 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Mappings\" />
+      <Folder Include="Models\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ProjetoIntegrador3.Domain\ProjetoIntegrador3.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

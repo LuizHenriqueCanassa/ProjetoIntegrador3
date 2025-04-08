@@ -6,14 +6,30 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace ProjetoIntegrador3.Infra.Identity.Migrations
+namespace ProjetoIntegrador3.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class IdentityInitial : Migration
+    public partial class FirstMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Genres",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Genres", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -53,6 +69,31 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    ImageUrl = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Publisher = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Isbn = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
+                    GenreId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Books_Genres_GenreId",
+                        column: x => x.GenreId,
+                        principalTable: "Genres",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -190,16 +231,21 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "955553e6-565b-4554-bab2-5204aa51d4e1", "40bd91d6-f99c-48e0-8a50-4be028715f85", "Employee", "EMPLOYEE" },
-                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "5f8b16bd-2ad0-42d5-8e26-8374c191a677", "Root", "ROOT" },
-                    { "cbb23c2b-fcb5-4975-bddb-4a86a5b760d1", "4fb5f10f-7517-4a1e-86fe-dba7bb2fafc4", "User", "USER" },
-                    { "f002f63e-045c-48a7-be36-04b7dc3a9de8", "ad44b94b-960f-44ea-9fd8-c6afac37701f", "Admin", "ADMIN" }
+                    { "373df597-9ca9-4597-95d9-ab18f156021e", "0201f907-f05b-46db-9c4a-8d6bf98e8690", "User", "USER" },
+                    { "6a8fc41d-a018-4533-9da1-a9bca7f65b09", "347abcd1-2d78-4f91-86ff-606af3620f17", "Admin", "ADMIN" },
+                    { "ab89debc-bb39-46c0-bc36-5a09f243cb07", "351cb829-f5e2-4a5f-b991-59a8e46c3169", "Root", "ROOT" },
+                    { "bc82410f-d883-49b7-86be-7b8e5050fda4", "59ebb24e-e168-44ac-a197-a5769622c1fb", "Employee", "EMPLOYEE" }
                 });
 
             migrationBuilder.InsertData(
                 table: "RoleClaims",
                 columns: new[] { "Id", "ClaimType", "ClaimValue", "RoleId" },
                 values: new object[] { 1, "Root", "Root", "ab89debc-bb39-46c0-bc36-5a09f243cb07" });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_GenreId",
+                table: "Books",
+                column: "GenreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -248,6 +294,9 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
                 name: "RoleClaims");
 
             migrationBuilder.DropTable(
@@ -264,6 +313,9 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Roles");

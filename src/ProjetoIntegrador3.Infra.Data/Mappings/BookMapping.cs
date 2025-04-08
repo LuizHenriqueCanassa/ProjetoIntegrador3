@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProjetoIntegrador3.Domain.Models;
-using ProjetoIntegrador3.Infra.Data.Migrations;
 
 namespace ProjetoIntegrador3.Infra.Data.Mappings;
 

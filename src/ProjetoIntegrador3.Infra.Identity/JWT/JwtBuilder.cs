@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using ProjetoIntegrador3.Infra.Identity.Models;
+using ProjetoIntegrador3.Domain.Models;
 
 namespace ProjetoIntegrador3.Infra.Identity.JWT;
 

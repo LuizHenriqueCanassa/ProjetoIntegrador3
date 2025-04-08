@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjetoIntegrador3.Infra.Identity.Models;
+using ProjetoIntegrador3.Domain.Models;
 
-namespace ProjetoIntegrador3.Infra.Identity.Mappings;
+namespace ProjetoIntegrador3.Infra.Data.Mappings;
 
 public class ApplicationUserMapping : IEntityTypeConfiguration<ApplicationUser>
 {

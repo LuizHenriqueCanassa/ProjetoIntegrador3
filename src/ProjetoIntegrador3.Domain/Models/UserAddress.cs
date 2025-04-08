@@ -1,4 +1,4 @@
-namespace ProjetoIntegrador3.Infra.Identity.Models;
+namespace ProjetoIntegrador3.Domain.Models;
 
 public class UserAddress
 {

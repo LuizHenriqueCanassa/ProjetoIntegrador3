@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ProjetoIntegrador3.Infra.Identity.Mappings;
+namespace ProjetoIntegrador3.Infra.Data.Mappings;
 
 public class UserTokenMapping : IEntityTypeConfiguration<IdentityUserToken<string>>
 {

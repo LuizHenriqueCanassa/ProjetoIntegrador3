@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ProjetoIntegrador3.Infra.Identity.Context;
+using ProjetoIntegrador3.Infra.Data.Context;
 
 #nullable disable
 
-namespace ProjetoIntegrador3.Infra.Identity.Migrations
+namespace ProjetoIntegrador3.Infra.Data.Migrations
 {
-    [DbContext(typeof(PiIdentityDbContext))]
-    [Migration("20250321235645_IdentityInitial")]
-    partial class IdentityInitial
+    [DbContext(typeof(PiApplicationDbContext))]
+    [Migration("20250408005213_FirstMigrations")]
+    partial class FirstMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,28 +54,28 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         new
                         {
                             Id = "ab89debc-bb39-46c0-bc36-5a09f243cb07",
-                            ConcurrencyStamp = "5f8b16bd-2ad0-42d5-8e26-8374c191a677",
+                            ConcurrencyStamp = "351cb829-f5e2-4a5f-b991-59a8e46c3169",
                             Name = "Root",
                             NormalizedName = "ROOT"
                         },
                         new
                         {
-                            Id = "f002f63e-045c-48a7-be36-04b7dc3a9de8",
-                            ConcurrencyStamp = "ad44b94b-960f-44ea-9fd8-c6afac37701f",
+                            Id = "6a8fc41d-a018-4533-9da1-a9bca7f65b09",
+                            ConcurrencyStamp = "347abcd1-2d78-4f91-86ff-606af3620f17",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "955553e6-565b-4554-bab2-5204aa51d4e1",
-                            ConcurrencyStamp = "40bd91d6-f99c-48e0-8a50-4be028715f85",
+                            Id = "bc82410f-d883-49b7-86be-7b8e5050fda4",
+                            ConcurrencyStamp = "59ebb24e-e168-44ac-a197-a5769622c1fb",
                             Name = "Employee",
                             NormalizedName = "EMPLOYEE"
                         },
                         new
                         {
-                            Id = "cbb23c2b-fcb5-4975-bddb-4a86a5b760d1",
-                            ConcurrencyStamp = "4fb5f10f-7517-4a1e-86fe-dba7bb2fafc4",
+                            Id = "373df597-9ca9-4597-95d9-ab18f156021e",
+                            ConcurrencyStamp = "0201f907-f05b-46db-9c4a-8d6bf98e8690",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -196,7 +196,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", b =>
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -268,7 +268,85 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.UserAddress", b =>
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<int?>("GenreId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("Isbn")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
+
+                    b.Property<DateTime>("PublishDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Publisher")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("Books", (string)null);
+                });
+
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres", (string)null);
+                });
+
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.UserAddress", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -321,7 +399,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", null)
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -330,7 +408,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", null)
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -345,7 +423,7 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", null)
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -354,16 +432,25 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", null)
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.UserAddress", b =>
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Book", b =>
                 {
-                    b.HasOne("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.Genre", "Genre")
+                        .WithMany("Books")
+                        .HasForeignKey("GenreId");
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.UserAddress", b =>
+                {
+                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Addresses")
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -372,9 +459,14 @@ namespace ProjetoIntegrador3.Infra.Identity.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("ProjetoIntegrador3.Infra.Identity.Models.ApplicationUser", b =>
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Addresses");
+                });
+
+            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Genre", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

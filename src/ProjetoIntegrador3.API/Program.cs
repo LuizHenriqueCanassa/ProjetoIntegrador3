@@ -14,9 +14,9 @@ builder.AddHealthCheckConfiguration();
 
 builder.AddDependencyInjectionConfiguration();
 
-builder.AddIdentityConfiguration();
-
 builder.AddApplicationDbConfiguration();
+
+builder.AddIdentityConfiguration();
 
 builder.AddAutoMapperConfiguration();
 
