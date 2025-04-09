@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoIntegrador3.Infra.Data.Context;
@@ -11,9 +12,11 @@ using ProjetoIntegrador3.Infra.Data.Context;
 namespace ProjetoIntegrador3.Infra.Data.Migrations
 {
     [DbContext(typeof(PiApplicationDbContext))]
-    partial class PiApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250409003553_LoanDateReturned")]
+    partial class LoanDateReturned
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

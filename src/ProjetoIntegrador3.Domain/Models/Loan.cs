@@ -10,6 +10,7 @@ public class Loan
     public LoanStatus Status { get; set; } = LoanStatus.WAITING_WITHDRAWN;
     public DateTime LoanDate { get; set; }
     public DateTime ReturnDate { get; set; }
+    public DateTime DateReturned { get; set; }
 
     public bool isReturnLate()
     {

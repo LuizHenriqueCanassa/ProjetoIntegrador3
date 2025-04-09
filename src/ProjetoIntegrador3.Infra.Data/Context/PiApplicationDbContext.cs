@@ -25,6 +25,7 @@ public class PiApplicationDbContext : IdentityDbContext<ApplicationUser>
             .ApplyConfiguration(new UserLoginMapping())
             .ApplyConfiguration(new UserClaimMapping())
             .ApplyConfiguration(new GenreMapping())
-            .ApplyConfiguration(new BookMapping());
+            .ApplyConfiguration(new BookMapping())
+            .ApplyConfiguration(new LoanMapping());
     }
 }

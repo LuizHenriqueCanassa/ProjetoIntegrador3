@@ -90,6 +90,7 @@ public class JwtBuilder<TIdentityUser, TKey> where TIdentityUser : ApplicationUs
             {
                 _user.Id,
                 _user.Email,
+                _user.FullName,
                 Role = _claims.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value),
                 Claims = _claims.Claims.GroupBy(c => c.Type)
                     .Where(c => !(c.Key is ClaimTypes.Name) && c.Key != ClaimTypes.Role).Select(cv => new

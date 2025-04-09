@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace ProjetoIntegrador3.API.Models.User;
+namespace ProjetoIntegrador3.Application.ViewModels.User;
 
 public class RegisterUserViewModel
 {

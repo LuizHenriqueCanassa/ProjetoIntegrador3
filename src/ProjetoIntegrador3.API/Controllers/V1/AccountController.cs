@@ -2,7 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using ProjetoIntegrador3.API.Models.User;
+using ProjetoIntegrador3.Application.ViewModels.User;
 using ProjetoIntegrador3.Domain.Models;
 using ProjetoIntegrador3.Infra.Identity.JWT;
 

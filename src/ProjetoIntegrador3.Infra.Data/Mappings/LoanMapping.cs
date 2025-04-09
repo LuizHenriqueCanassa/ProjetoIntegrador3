@@ -14,5 +14,6 @@ public class LoanMapping : IEntityTypeConfiguration<Loan>
         builder.Property(x => x.Status).HasConversion<int>().IsRequired();
         builder.Property(x => x.LoanDate).HasColumnType("date").IsRequired();
         builder.Property(x => x.ReturnDate).HasColumnType("date").IsRequired();
+        builder.Property(x => x.DateReturned).HasColumnType("date").IsRequired();
     }
 }

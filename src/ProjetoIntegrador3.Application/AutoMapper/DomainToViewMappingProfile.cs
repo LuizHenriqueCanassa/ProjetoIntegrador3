@@ -30,6 +30,26 @@ public class DomainToViewMappingProfile : Profile
                     src => ToBookStatusDescription(src.Status)
                 )
             );
+
+        CreateMap<Loan, LoanViewModel>()
+            .ForMember(
+                dest => dest.isReturnLate,
+                opt => opt.MapFrom(
+                    src => src.isReturnLate()
+                )
+            )
+            .ForMember(
+                dest => dest.LoanDate,
+                opt => opt.MapFrom(
+                    src => src.LoanDate.ToString("dd/MM/yyyy")
+                )
+            )
+            .ForMember(
+                dest => dest.ReturnDate,
+                opt => opt.MapFrom(
+                    src => src.ReturnDate.ToString("dd/MM/yyyy")
+                )
+            );
     }
 
     private string ToBookStatusDescription(BookStatus status)
