@@ -21,6 +21,7 @@ public class LoanRepository : ILoanRepository
         return await DbSet
             .Include(l => l.User)
             .Include(l => l.Book)
+            .Include(l => l.Book.Genre)
             .Where(l => l.Id == id && l.User == user)
             .SingleOrDefaultAsync();
     }
@@ -30,6 +31,7 @@ public class LoanRepository : ILoanRepository
         return await DbSet
             .Include(l => l.User)
             .Include(l => l.Book)
+            .Include(l => l.Book.Genre)
             .Where(l => l.User == user)
             .ToListAsync();
     }

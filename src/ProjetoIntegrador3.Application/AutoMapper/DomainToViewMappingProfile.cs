@@ -47,7 +47,73 @@ public class DomainToViewMappingProfile : Profile
             .ForMember(
                 dest => dest.ReturnDate,
                 opt => opt.MapFrom(
-                    src => src.ReturnDate.ToString("dd/MM/yyyy")
+                    src => src.ReturnDate != null ? "" : src.ReturnDate.ToString("dd/MM/yyyy")
+                )
+            )
+            .ForPath(
+                dest => dest.User.Id,
+                opt => opt.MapFrom(
+                    src => src.User.Id.ToString()
+                )
+            )
+            .ForPath(
+                dest => dest.User.FullName,
+                opt => opt.MapFrom(
+                    src => src.User.FullName
+                )
+            )
+            .ForPath(
+                dest => dest.User.Email,
+                opt => opt.MapFrom(
+                    src => src.User.FullName
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Title,
+                opt => opt.MapFrom(
+                    src => src.Book.Title
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Description,
+                opt => opt.MapFrom(
+                    src => src.Book.Description
+                )
+            )
+            .ForPath(
+                dest => dest.Book.ImageUrl,
+                opt => opt.MapFrom(
+                    src => src.Book.ImageUrl
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Publisher,
+                opt => opt.MapFrom(
+                    src => src.Book.Publisher
+                )
+            )
+            .ForPath(
+                dest => dest.Book.PublishDate,
+                opt => opt.MapFrom(
+                    src => src.Book.PublishDate.ToString("dd/MM/yyyy")
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Isbn,
+                opt => opt.MapFrom(
+                    src => src.Book.Isbn
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Genre,
+                opt => opt.MapFrom(
+                    src => src.Book.Genre.Name
+                )
+            )
+            .ForPath(
+                dest => dest.Book.Status,
+                opt => opt.MapFrom(
+                    src => src.Book.Status.ToString()
                 )
             );
     }

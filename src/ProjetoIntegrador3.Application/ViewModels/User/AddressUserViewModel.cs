@@ -16,7 +16,7 @@ public class AddressUserViewModel
     
     [DisplayName("Cidade")]
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [StringLength(200, MinimumLength = 10, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres")]
+    [StringLength(200, MinimumLength = 5, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres")]
     public string City { get; set; }
     
     [DisplayName("Estado")]
