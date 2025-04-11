@@ -16,24 +16,23 @@ public class LoanRepository : ILoanRepository
         DbSet = Db.Set<Loan>();
     }
 
-    public async Task<Loan> GetByIdAndUser(int id, ApplicationUser user)
+    public async Task<IEnumerable<Loan>> GetAllLoans()
     {
         return await DbSet
             .Include(l => l.User)
             .Include(l => l.Book)
             .Include(l => l.Book.Genre)
-            .Where(l => l.Id == id && l.User == user)
-            .SingleOrDefaultAsync();
+            .ToListAsync();
     }
 
-    public async Task<List<Loan>> GetAllByUser(ApplicationUser user)
+    public async Task<Loan> GetLoanById(int id)
     {
         return await DbSet
             .Include(l => l.User)
             .Include(l => l.Book)
             .Include(l => l.Book.Genre)
-            .Where(l => l.User == user)
-            .ToListAsync();
+            .Where(l => l.Id == id)
+            .FirstOrDefaultAsync();
     }
     
     public void Dispose()

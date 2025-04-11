@@ -21,24 +21,16 @@ public class LoanService : ILoanService
         _userManager = userManager;
     }
 
-    public async Task<IEnumerable<LoanViewModel>> GetLoansByUserAsync(Guid userId)
+    public async Task<IEnumerable<LoanViewModel>> GetAllLoans()
     {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        
-        if (user is null) throw new UserNotFoundException("Usuário não encontrado");
-
-        return _mapper.Map<IEnumerable<LoanViewModel>>(await _loanRepository.GetAllByUser(user));
+        return _mapper.Map<IEnumerable<LoanViewModel>>(await _loanRepository.GetAllLoans());
     }
 
-    public async Task<LoanViewModel> GetLoanByIdAndUserIdAsync(int id, Guid userId)
+    public async Task<LoanViewModel> GetLoanById(int id)
     {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        
-        if (user is null) throw new UserNotFoundException("Usuário não encontrado");
+        var loan = await _loanRepository.GetLoanById(id);
 
-        var loan = await _loanRepository.GetByIdAndUser(id, user);
-        
-        if (loan == null) throw new LoanNotFoundException("Aluguel não encontrado");
+        if (loan == null) throw new LoanNotFoundException("Nenhum aluguel encontrado");
         
         return _mapper.Map<LoanViewModel>(loan);
     }

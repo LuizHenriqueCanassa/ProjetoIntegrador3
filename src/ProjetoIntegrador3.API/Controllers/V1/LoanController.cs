@@ -1,10 +1,12 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjetoIntegrador3.Application.Exceptions;
 using ProjetoIntegrador3.Application.Interfaces;
 using ProjetoIntegrador3.Application.ViewModels;
-using ProjetoIntegrador3.Domain.Interfaces;
+using ProjetoIntegrador3.Domain.Models;
+using ProjetoIntegrador3.Infra.Identity.Authorization;
 
 namespace ProjetoIntegrador3.API.Controllers.V1;
 
@@ -15,34 +17,44 @@ namespace ProjetoIntegrador3.API.Controllers.V1;
 public class LoanController : ControllerBase
 {
     private readonly ILoanService _loanService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public LoanController(ILoanService loanService)
+    public LoanController(ILoanService loanService, UserManager<ApplicationUser> userManager)
     {
         _loanService = loanService;
+        _userManager = userManager;
     }
 
-    [HttpGet("{id:int:required}/user/{userId:guid:required}")]
-    public async Task<ActionResult<LoanViewModel>> GetByIdAndUserId(int id, Guid userId)
+    [HttpGet]
+    [CustomAuthorize("Loan", "ReadAll")]
+    public async Task<ActionResult<IEnumerable<LoanViewModel>>> GetAllLoans()
+    {
+        return Ok(new
+        {
+            data = await _loanService.GetAllLoans()
+        });
+    }
+
+    [HttpGet("{id}")]
+    [CustomAuthorize("Loan", "Read")]
+    public async Task<ActionResult<LoanViewModel>> GetLoan(int id)
     {
         try
         {
-            return await _loanService.GetLoanByIdAndUserIdAsync(id, userId);
-        }
-        catch (UserNotFoundException e)
-        {
-            return NotFound(new CustomErrorResponseViewModel
-            {
-                StatusCode = StatusCodes.Status404NotFound,
-                Message = e.Message,
-                Uri = HttpContext.Request.Path.Value,
-                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
-            });
+            var userLogged = await _userManager.FindByNameAsync(User.Identity.Name);
+            
+            var loanViewModel = await _loanService.GetLoanById(id);
+            
+            if (User.IsInRole("User"))
+                if (userLogged != null && userLogged.Id != loanViewModel.User.Id) return StatusCode(StatusCodes.Status403Forbidden);
+            
+            return Ok(loanViewModel);
         }
         catch (LoanNotFoundException e)
         {
             return NotFound(new CustomErrorResponseViewModel
             {
-                StatusCode = StatusCodes.Status404NotFound,
+                StatusCode = 404,
                 Message = e.Message,
                 Uri = HttpContext.Request.Path.Value,
                 DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
@@ -52,7 +64,7 @@ public class LoanController : ControllerBase
         {
             return StatusCode(500, new CustomErrorResponseViewModel
             {
-                StatusCode = StatusCodes.Status500InternalServerError,
+                StatusCode = 500,
                 Message = e.Message,
                 Uri = HttpContext.Request.Path.Value,
                 DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
@@ -60,35 +72,4 @@ public class LoanController : ControllerBase
         }
     }
     
-    [HttpGet("/user/{userId:guid:required}")]
-    public async Task<ActionResult<IEnumerable<LoanViewModel>>> GetAllByUserId(Guid userId)
-    {
-        try
-        {
-            return Ok(new
-            {
-                data = await _loanService.GetLoansByUserAsync(userId)
-            });
-        }
-        catch (UserNotFoundException e)
-        {
-            return NotFound(new CustomErrorResponseViewModel
-            {
-                StatusCode = StatusCodes.Status404NotFound,
-                Message = e.Message,
-                Uri = HttpContext.Request.Path.Value,
-                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
-            });
-        }
-        catch (Exception e)
-        {
-            return StatusCode(500, new CustomErrorResponseViewModel
-            {
-                StatusCode = StatusCodes.Status500InternalServerError,
-                Message = e.Message,
-                Uri = HttpContext.Request.Path.Value,
-                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
-            });
-        }
-    }
 }
