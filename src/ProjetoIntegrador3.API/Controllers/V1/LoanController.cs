@@ -71,5 +71,44 @@ public class LoanController : ControllerBase
             });
         }
     }
-    
+
+    [HttpGet("user/{userId:guid}")]
+    public async Task<ActionResult<IEnumerable<LoanViewModel>>> GetLoansByUser(Guid userId)
+    {
+        try
+        {
+            if (await _userManager.FindByIdAsync(userId.ToString()) == null)
+                throw new UserNotFoundException("Nenhum usuario encontrado");
+
+            var userLogged = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var loanViewModel = await _loanService.GetLoansByUserId(userId);
+
+            if (User.IsInRole("User"))
+                if (userLogged != null && userLogged.Id != userId.ToString())
+                    return StatusCode(StatusCodes.Status403Forbidden);
+
+            return Ok(loanViewModel);
+        }
+        catch (UserNotFoundException e)
+        {
+            return NotFound(new CustomErrorResponseViewModel
+            {
+                StatusCode = 404,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new CustomErrorResponseViewModel
+            {
+                StatusCode = 500,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+    }
 }

@@ -34,4 +34,9 @@ public class LoanService : ILoanService
         
         return _mapper.Map<LoanViewModel>(loan);
     }
+
+    public async Task<IEnumerable<LoanViewModel>> GetLoansByUserId(Guid id)
+    {
+        return _mapper.Map<IEnumerable<LoanViewModel>>(await _loanRepository.GetLoansByUserId(id));
+    }
 }

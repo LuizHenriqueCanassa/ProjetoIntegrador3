@@ -6,4 +6,5 @@ public interface ILoanRepository : IDisposable
 {
     Task<IEnumerable<Loan>> GetAllLoans();
     Task<Loan> GetLoanById(int id);
+    Task<IEnumerable<Loan>> GetLoansByUserId(Guid id);
 }

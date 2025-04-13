@@ -34,7 +34,17 @@ public class LoanRepository : ILoanRepository
             .Where(l => l.Id == id)
             .FirstOrDefaultAsync();
     }
-    
+
+    public async Task<IEnumerable<Loan>> GetLoansByUserId(Guid id)
+    {
+        return await DbSet
+            .Include(l => l.User)
+            .Include(l => l.Book)
+            .Include(l => l.Book.Genre)
+            .Where(l => l.User.Id == id.ToString())
+            .ToListAsync();
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
