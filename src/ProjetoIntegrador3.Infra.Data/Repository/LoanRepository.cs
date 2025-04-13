@@ -45,6 +45,28 @@ public class LoanRepository : ILoanRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Loan>> GetLoansByBook(Book book)
+    {
+        return await DbSet
+            .Include(l => l.User)
+            .Include(l => l.Book)
+            .Include(l => l.Book.Genre)
+            .Where(l => l.Book == book)
+            .ToListAsync();
+    }
+
+    public void AddRequestLoan(Book book, ApplicationUser user)
+    {
+        Db.AddAsync(new Loan
+        {
+            Book = book, 
+            User = user,
+            LoanDate = DateTime.Now.ToUniversalTime(),
+            ReturnDate = DateTime.Now.ToUniversalTime().AddDays(7)
+        });
+        Db.SaveChanges();
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);

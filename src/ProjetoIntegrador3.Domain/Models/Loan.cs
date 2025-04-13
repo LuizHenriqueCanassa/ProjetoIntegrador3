@@ -16,4 +16,9 @@ public class Loan
     {
         return DateTime.Now >= ReturnDate;
     }
+
+    public bool isLoanFinished()
+    {
+        return Status.Equals(LoanStatus.RETURNED);
+    }
 }

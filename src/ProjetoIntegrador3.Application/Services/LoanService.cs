@@ -12,13 +12,16 @@ public class LoanService : ILoanService
 {
     private readonly IMapper _mapper;
     private readonly ILoanRepository _loanRepository;
+    private readonly IBookRepository _bookRepository;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public LoanService(ILoanRepository loanRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
+    public LoanService(ILoanRepository loanRepository, IMapper mapper, UserManager<ApplicationUser> userManager,
+        IBookRepository bookRepository)
     {
         _loanRepository = loanRepository;
         _mapper = mapper;
         _userManager = userManager;
+        _bookRepository = bookRepository;
     }
 
     public async Task<IEnumerable<LoanViewModel>> GetAllLoans()
@@ -31,12 +34,36 @@ public class LoanService : ILoanService
         var loan = await _loanRepository.GetLoanById(id);
 
         if (loan == null) throw new LoanNotFoundException("Nenhum aluguel encontrado");
-        
+
         return _mapper.Map<LoanViewModel>(loan);
     }
 
     public async Task<IEnumerable<LoanViewModel>> GetLoansByUserId(Guid id)
     {
         return _mapper.Map<IEnumerable<LoanViewModel>>(await _loanRepository.GetLoansByUserId(id));
+    }
+
+    public async Task AddRequestLoan(int bookId, Guid userId)
+    {
+        var book = await _bookRepository.GetById(bookId);
+
+        if (book == null)
+            throw new RegisterNotFoundException("Nenhum livro encontrado");
+
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        
+        if (user == null)
+            throw new UserNotFoundException("Nenhum usuario encontrado");
+
+        if (await BooKHasInActiveLoan(book))
+            throw new BookInUseException("O livro ainda esta com aluguel vigente");
+
+        _loanRepository.AddRequestLoan(book, user);
+    }
+
+    private async Task<bool> BooKHasInActiveLoan(Book book)
+    {
+        var loansByBook = await _loanRepository.GetLoansByBook(book);
+        return loansByBook.Any(loan => !loan.isLoanFinished());
     }
 }
