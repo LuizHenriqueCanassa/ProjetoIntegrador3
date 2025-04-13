@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjetoIntegrador3.Infra.Data.Context;
@@ -11,9 +12,11 @@ using ProjetoIntegrador3.Infra.Data.Context;
 namespace ProjetoIntegrador3.Infra.Data.Migrations
 {
     [DbContext(typeof(PiApplicationDbContext))]
-    partial class PiApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408005213_FirstMigrations")]
+    partial class FirstMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,42 +346,6 @@ namespace ProjetoIntegrador3.Infra.Data.Migrations
                     b.ToTable("Genres", (string)null);
                 });
 
-            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Loan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("DateReturned")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("LoanDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("ReturnDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Loans", (string)null);
-                });
-
             modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.UserAddress", b =>
                 {
                     b.Property<int>("Id")
@@ -479,25 +446,6 @@ namespace ProjetoIntegrador3.Infra.Data.Migrations
                         .HasForeignKey("GenreId");
 
                     b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.Loan", b =>
-                {
-                    b.HasOne("ProjetoIntegrador3.Domain.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProjetoIntegrador3.Domain.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ProjetoIntegrador3.Domain.Models.UserAddress", b =>

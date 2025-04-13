@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoIntegrador3.Domain.Interfaces;
 using ProjetoIntegrador3.Domain.Models;
+using ProjetoIntegrador3.Domain.Models.Enums;
 using ProjetoIntegrador3.Infra.Data.Context;
 
 namespace ProjetoIntegrador3.Infra.Data.Repository;
@@ -29,6 +30,12 @@ public class BookRepository : IBookRepository
     public async Task<IEnumerable<Book>> GetAllByGenre(int genreId)
     {
         return await DbSet.Include(b => b.Genre).Where(b => b.Genre.Id == genreId).ToListAsync(); 
+    }
+
+    public void UpdateStatus(Book book, BookStatus status)
+    {
+        book.Status = status;
+        Update(book);
     }
 
     public void Create(Book book)

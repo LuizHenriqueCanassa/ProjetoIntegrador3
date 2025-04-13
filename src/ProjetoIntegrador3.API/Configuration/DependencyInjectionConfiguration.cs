@@ -16,6 +16,7 @@ public static class DependencyInjectionConfiguration
         //Aplication
         builder.Services.AddScoped<IGenreService, GenreService>();
         builder.Services.AddScoped<IBookService, BookService>();
+        builder.Services.AddScoped<ILoanService, LoanService>();
         
         builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
         builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -23,6 +24,7 @@ public static class DependencyInjectionConfiguration
         //Infra - Data
         builder.Services.AddScoped<IGenreRepository, GenreRepository>();
         builder.Services.AddScoped<IBookRepository, BookRepository>();
+        builder.Services.AddScoped<ILoanRepository, LoanRepository>();
         builder.Services.AddScoped<PiApplicationDbContext>();
         
         return builder;
