@@ -113,7 +113,7 @@ public class DomainToViewMappingProfile : Profile
             .ForPath(
                 dest => dest.Book.Status,
                 opt => opt.MapFrom(
-                    src => src.Book.Status.ToString()
+                    src => src.isReturnLate() ? LoanStatus.RETURN_LATE.ToString() : src.Book.Status.ToString()
                 )
             );
     }
@@ -127,7 +127,7 @@ public class DomainToViewMappingProfile : Profile
 
         if (BookStatus.Loaned.Equals(status))
         {
-            return "Emprestado";
+            return "Alugado";
         }
 
         throw new BookStatusException("Status invalido");

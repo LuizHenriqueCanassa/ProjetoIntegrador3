@@ -14,11 +14,16 @@ public class Loan
 
     public bool isReturnLate()
     {
-        return DateTime.Now >= ReturnDate;
+        return DateTime.Now >= ReturnDate && IsInLoanCurrentLoanStatus();
     }
 
     public bool isLoanFinished()
     {
-        return Status.Equals(LoanStatus.RETURNED);
+        return Status.Equals(LoanStatus.RETURNED) || Status.Equals(LoanStatus.CANCELLED);
+    }
+
+    private bool IsInLoanCurrentLoanStatus()
+    {
+        return Status.Equals(LoanStatus.CURRENT_RENT) || Status.Equals(LoanStatus.RETURN_LATE);
     }
 }

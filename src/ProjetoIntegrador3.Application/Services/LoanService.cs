@@ -5,6 +5,7 @@ using ProjetoIntegrador3.Application.Interfaces;
 using ProjetoIntegrador3.Application.ViewModels;
 using ProjetoIntegrador3.Domain.Interfaces;
 using ProjetoIntegrador3.Domain.Models;
+using ProjetoIntegrador3.Domain.Models.Enums;
 
 namespace ProjetoIntegrador3.Application.Services;
 
@@ -49,21 +50,17 @@ public class LoanService : ILoanService
 
         if (book == null)
             throw new RegisterNotFoundException("Nenhum livro encontrado");
+        
+        if (BookStatus.Loaned.Equals(book.Status))
+            throw new BookInUseException("O livro ainda esta com aluguel vigente");
 
         var user = await _userManager.FindByIdAsync(userId.ToString());
         
         if (user == null)
             throw new UserNotFoundException("Nenhum usuario encontrado");
 
-        if (await BooKHasInActiveLoan(book))
-            throw new BookInUseException("O livro ainda esta com aluguel vigente");
-
         _loanRepository.AddRequestLoan(book, user);
-    }
-
-    private async Task<bool> BooKHasInActiveLoan(Book book)
-    {
-        var loansByBook = await _loanRepository.GetLoansByBook(book);
-        return loansByBook.Any(loan => !loan.isLoanFinished());
+        
+        _bookRepository.UpdateStatus(book, BookStatus.Loaned);
     }
 }
