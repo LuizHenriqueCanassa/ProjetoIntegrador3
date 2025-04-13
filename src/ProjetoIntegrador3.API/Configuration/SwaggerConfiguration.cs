@@ -1,3 +1,4 @@
+using System.Reflection;
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +26,10 @@ public static class SwaggerConfiguration
         
         builder.Services.AddSwaggerGen(c =>
         {
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+            
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Description = "JWT Token",

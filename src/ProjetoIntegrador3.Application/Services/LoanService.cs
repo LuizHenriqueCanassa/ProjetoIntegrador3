@@ -78,4 +78,31 @@ public class LoanService : ILoanService
         
         _bookRepository.UpdateStatus(loan.Book, BookStatus.Available);
     }
+
+    public async Task UpdateLoanStatus(int loanId, LoanStatus loanStatus)
+    {
+        var loan = await _loanRepository.GetLoanById(loanId);
+        
+        if (loan == null)
+            throw new LoanNotFoundException("Nenhum aluguel encontrado");
+        
+        if (IsAvailableToUpdateStatus(loanStatus, loan))
+            throw new LoanStatusException("Alteraçao de status do aluguel invalida");
+        
+        loan.Status = loanStatus;
+        loan.ReturnDate = LoanStatus.RETURNED.Equals(loan.Status) ? DateTime.Now : loan.ReturnDate;
+        
+        _loanRepository.UpdateLoanStatus(loan, loanStatus);
+        
+        if (loanStatus == LoanStatus.RETURNED)
+            _bookRepository.UpdateStatus(loan.Book, BookStatus.Available);
+    }
+
+    private static bool IsAvailableToUpdateStatus(LoanStatus loanStatus, Loan loan)
+    {
+        return loanStatus == loan.Status 
+               || loanStatus == LoanStatus.CANCELLED 
+               || loanStatus == LoanStatus.WAITING_WITHDRAWN
+               || loanStatus == LoanStatus.RETURN_LATE;
+    }
 }

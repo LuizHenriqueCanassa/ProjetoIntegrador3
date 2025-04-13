@@ -75,6 +75,13 @@ public class LoanRepository : ILoanRepository
         Db.SaveChanges();
     }
 
+    public void UpdateLoanStatus(Loan loan, LoanStatus loanStatus)
+    {
+        loan.Status = loanStatus;
+        Db.Update(loan);
+        Db.SaveChanges();
+    }
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);
