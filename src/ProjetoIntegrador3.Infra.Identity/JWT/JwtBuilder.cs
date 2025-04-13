@@ -82,9 +82,13 @@ public class JwtBuilder<TIdentityUser, TKey> where TIdentityUser : ApplicationUs
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         });
 
+        var writeToken = tokenHandler.WriteToken(token);
+        
+        _userManager.SetAuthenticationTokenAsync(_user, _appJwtSettings.Issuer, "JWT", writeToken).Wait();
+        
         return new
         {
-            AccessToken = tokenHandler.WriteToken(token),
+            AccessToken = writeToken,
             ExpiresIn = TimeSpan.FromHours(_appJwtSettings.Expiration).TotalSeconds,
             UserToken = new
             {

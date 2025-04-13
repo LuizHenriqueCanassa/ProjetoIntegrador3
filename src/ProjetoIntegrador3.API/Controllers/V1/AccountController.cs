@@ -1,7 +1,11 @@
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using ProjetoIntegrador3.Application.ViewModels;
 using ProjetoIntegrador3.Application.ViewModels.User;
 using ProjetoIntegrador3.Domain.Models;
 using ProjetoIntegrador3.Infra.Identity.JWT;
@@ -38,6 +42,18 @@ public class AccountController : ControllerBase
         if (!result.Succeeded) return BadRequest(result);
         
         return Ok(GetJwtToken(loginUserViewModel.Email));
+    }
+
+    [HttpGet("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        var userLogged = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+        
+        await _signInManager.SignOutAsync();
+
+        _userManager.RemoveAuthenticationTokenAsync(userLogged, _appJwtSettings.Issuer, "JWT");
+        
+        return Ok();
     }
 
     [HttpPost("register")]
