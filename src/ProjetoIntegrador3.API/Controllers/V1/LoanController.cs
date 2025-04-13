@@ -170,4 +170,46 @@ public class LoanController : ControllerBase
             });
         }
     }
+
+    [HttpPut("{loanId:int}/cancel")]
+    [CustomAuthorize("Loan", "Update")]
+    public async Task<IActionResult> CancelLoan(int loanId)
+    {
+        try
+        {
+            await _loanService.CancelLoan(loanId);
+
+            return NoContent();
+        }
+        catch (LoanNotFoundException e)
+        {
+            return NotFound(new CustomErrorResponseViewModel
+            {
+                StatusCode = 404,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+        catch (LoanStatusException e)
+        {
+            return NotFound(new CustomErrorResponseViewModel
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new CustomErrorResponseViewModel
+            {
+                StatusCode = 500,
+                Message = e.Message,
+                Uri = HttpContext.Request.Path.Value,
+                DateOcurrence = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+            });
+        }
+    }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoIntegrador3.Domain.Interfaces;
 using ProjetoIntegrador3.Domain.Models;
+using ProjetoIntegrador3.Domain.Models.Enums;
 using ProjetoIntegrador3.Infra.Data.Context;
 
 namespace ProjetoIntegrador3.Infra.Data.Repository;
@@ -64,6 +65,13 @@ public class LoanRepository : ILoanRepository
             LoanDate = DateTime.Now.ToUniversalTime(),
             ReturnDate = DateTime.Now.ToUniversalTime().AddDays(7)
         });
+        Db.SaveChanges();
+    }
+
+    public void CancelLoan(Loan loan)
+    {
+        loan.Status = LoanStatus.CANCELLED;
+        DbSet.Update(loan);
         Db.SaveChanges();
     }
 

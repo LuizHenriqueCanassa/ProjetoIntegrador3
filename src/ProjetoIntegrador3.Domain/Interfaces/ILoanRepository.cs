@@ -9,4 +9,5 @@ public interface ILoanRepository : IDisposable
     Task<IEnumerable<Loan>> GetLoansByUserId(Guid id);
     Task<IEnumerable<Loan>> GetLoansByBook(Book book);
     void AddRequestLoan(Book book, ApplicationUser applicationUser);
+    void CancelLoan(Loan loan);
 }

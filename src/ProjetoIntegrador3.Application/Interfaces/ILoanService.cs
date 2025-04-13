@@ -9,4 +9,5 @@ public interface ILoanService
     Task<LoanViewModel> GetLoanById(int id);
     Task<IEnumerable<LoanViewModel>> GetLoansByUserId(Guid id);
     Task AddRequestLoan(int bookId, Guid userId);
+    Task CancelLoan(int loanId); 
 }

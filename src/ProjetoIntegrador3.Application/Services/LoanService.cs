@@ -63,4 +63,19 @@ public class LoanService : ILoanService
         
         _bookRepository.UpdateStatus(book, BookStatus.Loaned);
     }
+
+    public async Task CancelLoan(int loanId)
+    {
+        var loan = await _loanRepository.GetLoanById(loanId);
+        
+        if (loan == null)
+            throw new LoanNotFoundException("Nenhum aluguel encontrado");
+
+        if (LoanStatus.CANCELLED.Equals(loan.Status))
+            throw new LoanStatusException("Alteraçao de status do aluguel invalida, aluguel ja cancelado");
+        
+        _loanRepository.CancelLoan(loan);
+        
+        _bookRepository.UpdateStatus(loan.Book, BookStatus.Available);
+    }
 }
