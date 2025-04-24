@@ -36,7 +36,7 @@ public static class IdentityConfiguration
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
-                ValidateAudience = true,
+                ValidateAudience = false,
                 ValidAudiences = appJwtSettings.Audience,
                 ValidIssuer = appJwtSettings.Issuer
             };
