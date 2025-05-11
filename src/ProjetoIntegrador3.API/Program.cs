@@ -40,4 +40,6 @@ app.UseHealthCheckConfiguration();
 
 app.MapControllers();
 
+app.UseCors("AllowAllOrigins");
+
 app.Run();
