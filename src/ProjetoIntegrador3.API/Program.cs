@@ -20,6 +20,8 @@ builder.AddIdentityConfiguration();
 
 builder.AddAutoMapperConfiguration();
 
+builder.AddCorsConfiguration();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
