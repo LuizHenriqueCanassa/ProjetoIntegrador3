@@ -11,4 +11,6 @@ public class CreateUpdateGenreViewModel
     [Required]
     [StringLength(1000, MinimumLength = 10, ErrorMessage = "O Campo {0} deve conter entre {2} e {1} caracteres")]
     public string? Description { get; set; }
+
+    public bool? IsActive { get; set; } = true;
 }
