@@ -10,5 +10,6 @@ public class BookViewModel
     public string? PublishDate { get; set; }
     public string? Isbn { get; set; }
     public string? Status { get; set; }
+    public int? GenreId { get; set; }
     public string? Genre { get; set; }
 }

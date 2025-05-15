@@ -105,6 +105,12 @@ public class DomainToViewMappingProfile : Profile
                 )
             )
             .ForPath(
+                dest => dest.Book.GenreId,
+                opt => opt.MapFrom(
+                    src => src.Book.Genre.Id
+                )
+            )
+            .ForPath(
                 dest => dest.Book.Genre,
                 opt => opt.MapFrom(
                     src => src.Book.Genre.Name
