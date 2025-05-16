@@ -284,7 +284,7 @@ BEGIN
         "Status" integer NOT NULL,
         "LoanDate" date NOT NULL,
         "ReturnDate" date NOT NULL,
-        "DateReturned" date NOT NULL,
+        "DateReturned" date,
         CONSTRAINT "PK_Loans" PRIMARY KEY ("Id"),
         CONSTRAINT "FK_Loans_Books_BookId" FOREIGN KEY ("BookId") REFERENCES "Books" ("Id") ON DELETE CASCADE,
         CONSTRAINT "FK_Loans_Users_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE CASCADE
