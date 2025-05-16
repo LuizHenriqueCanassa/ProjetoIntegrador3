@@ -10,5 +10,6 @@ public class LoanViewModel
     public string Status { get; set; }
     public string LoanDate { get; set; }
     public string ReturnDate { get; set; }
+    public string DateReturned { get; set; }
     public bool isReturnLate { get; set; }
 }

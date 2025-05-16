@@ -47,7 +47,7 @@ public class DomainToViewMappingProfile : Profile
             .ForMember(
                 dest => dest.ReturnDate,
                 opt => opt.MapFrom(
-                    src => src.ReturnDate != null ? "" : src.ReturnDate.ToString("dd/MM/yyyy")
+                    src => src.ReturnDate == null ? "" : src.ReturnDate.ToString("dd/MM/yyyy")
                 )
             )
             .ForPath(
@@ -120,6 +120,12 @@ public class DomainToViewMappingProfile : Profile
                 dest => dest.Book.Status,
                 opt => opt.MapFrom(
                     src => src.isReturnLate() ? LoanStatus.RETURN_LATE.ToString() : src.Book.Status.ToString()
+                )
+            )
+            .ForPath(
+                dest => dest.DateReturned,
+                opt => opt.MapFrom(
+                    src => src.DateReturned == null ? "" : src.DateReturned.ToString()
                 )
             );
     }

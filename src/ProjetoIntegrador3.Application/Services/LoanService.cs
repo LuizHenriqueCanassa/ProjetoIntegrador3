@@ -90,7 +90,7 @@ public class LoanService : ILoanService
             throw new LoanStatusException("Alteraçao de status do aluguel invalida");
         
         loan.Status = loanStatus;
-        loan.ReturnDate = LoanStatus.RETURNED.Equals(loan.Status) ? DateTime.Now : loan.ReturnDate;
+        loan.DateReturned = LoanStatus.RETURNED.Equals(loan.Status) ? DateTime.Now : loan.DateReturned;
         
         _loanRepository.UpdateLoanStatus(loan, loanStatus);
         
