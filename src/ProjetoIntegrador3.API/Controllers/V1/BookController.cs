@@ -23,9 +23,9 @@ public class BookController : ControllerBase
 
     [HttpGet]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAll()
+    public async Task<ActionResult<IEnumerable<BookViewModel>>> GetAll([FromQuery] SearchBookParamsViewModel searchParams)
     {
-        return Ok(await _bookService.GetAll());
+        return Ok(await _bookService.GetAll(searchParams));
     }
     
     [HttpGet("{id:int}")]

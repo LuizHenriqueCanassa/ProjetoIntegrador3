@@ -22,9 +22,13 @@ public class BookRepository : IBookRepository
         return await DbSet.Include(b => b.Genre).FirstOrDefaultAsync(b => b.Id == id);
     }
 
-    public async Task<IEnumerable<Book>> GetAll()
+    public async Task<IEnumerable<Book>> GetAll(string? title, int? genreId)
     {
-        return await DbSet.Include(b => b.Genre).ToListAsync();
+        return await DbSet.Include(b => b.Genre)
+            .Where(b => genreId != null ? b.Genre.Id == genreId : true)
+            .Where(b => title != null ? b.Title.Contains(title): true)
+            .OrderBy(b => b.Title)
+            .ToListAsync();
     }
     
     public async Task<IEnumerable<Book>> GetAllByGenre(int genreId)

@@ -20,9 +20,9 @@ public class BookService : IBookService
         _genreRepository = genreRepository;
     }
 
-    public async Task<IEnumerable<BookViewModel>> GetAll()
+    public async Task<IEnumerable<BookViewModel>> GetAll(SearchBookParamsViewModel searchParams)
     {
-        return _mapper.Map<IEnumerable<BookViewModel>>(await _bookRepository.GetAll());
+        return _mapper.Map<IEnumerable<BookViewModel>>(await _bookRepository.GetAll(searchParams.Title, searchParams.GenreId));
     }
 
     public async Task<BookViewModel> GetById(int id)
