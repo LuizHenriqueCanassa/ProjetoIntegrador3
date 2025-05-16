@@ -33,9 +33,9 @@ public static class IdentityConfiguration
             options.SaveToken = true;
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = false,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidAudiences = appJwtSettings.Audience,
                 ValidIssuer = appJwtSettings.Issuer
