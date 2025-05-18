@@ -93,12 +93,6 @@ public class DomainToViewMappingProfile : Profile
                 )
             )
             .ForPath(
-                dest => dest.Book.PublishDate,
-                opt => opt.MapFrom(
-                    src => src.Book.PublishDate.ToString("dd/MM/yyyy")
-                )
-            )
-            .ForPath(
                 dest => dest.Book.Isbn,
                 opt => opt.MapFrom(
                     src => src.Book.Isbn

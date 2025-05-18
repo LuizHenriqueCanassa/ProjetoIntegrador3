@@ -10,7 +10,6 @@ public class Book
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
     public string? Publisher { get; set; }
-    public DateTime PublishDate { get; set; }
     public string? Isbn { get; set; }
     public BookStatus Status { get; set; } = BookStatus.Available;
     public Genre? Genre { get; set; }

@@ -5,7 +5,7 @@ namespace ProjetoIntegrador3.Application.ViewModels;
 public class CreateUpdateBookViewModel
 {
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    [StringLength(100, MinimumLength = 10, ErrorMessage = "O Campo {0} deve conter entre {2} e {1} caracteres")]
+    [StringLength(100, MinimumLength = 1, ErrorMessage = "O Campo {0} deve conter entre {2} e {1} caracteres")]
     public string? Title { get; set; }
     
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -19,9 +19,6 @@ public class CreateUpdateBookViewModel
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     [StringLength(100, MinimumLength = 10, ErrorMessage = "O Campo {0} deve conter entre {2} e {1} caracteres")]
     public string? Publisher { get; set; }
-    
-    [Required(ErrorMessage = "O campo {0} é obrigatório")]
-    public string? PublishDate { get; set; }
     
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     [StringLength(13, MinimumLength = 13, ErrorMessage = "O Campo {0} deve conter {1} caracteres")]

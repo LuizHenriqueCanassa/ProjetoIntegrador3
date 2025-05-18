@@ -7,7 +7,6 @@ public class BookViewModel
     public string? Description { get; set; }
     public string? ImageUrl { get; set; }
     public string? Publisher { get; set; }
-    public string? PublishDate { get; set; }
     public string? Isbn { get; set; }
     public string? Status { get; set; }
     public int? GenreId { get; set; }

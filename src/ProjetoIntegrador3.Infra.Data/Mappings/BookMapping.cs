@@ -16,7 +16,6 @@ public class BookMapping : IEntityTypeConfiguration<Book>
         builder.Property(x => x.Description).HasMaxLength(1000).IsRequired();
         builder.Property(x => x.ImageUrl).HasMaxLength(1000).IsRequired();
         builder.Property(x => x.Publisher).HasMaxLength(100).IsRequired();
-        builder.Property(x => x.PublishDate).IsRequired();
         builder.Property(x => x.Isbn).HasMaxLength(13).IsRequired();
         builder.Property(x => x.Status).HasConversion<int>().IsRequired();
     }
